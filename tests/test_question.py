@@ -59,6 +59,26 @@ def test_sort_contracts_by_difficulty():
         {"id": 3, "difficulty": 5}
     ]
 
+def test_count_contracts_by_region():
+    contracts = [
+        {"id": 1, "region": "Kaer Morhen"},
+        {"id": 2, "region": "Kaer Morhen"},
+        {"id": 3, "region": "Blaviken"},
+        {"id": 4, "region": "Novigrad"},
+        {"id": 5, "region": "Blaviken"}
+    ]
+    result = count_contracts_by_region(contracts)
+    assert result == {
+        "Kaer Morhen": 2,
+        "Blaviken": 2,
+        "Novigrad": 1
+    }
+
+def test_get_contracts_by_region():
+    assert get_contracts_by_region("Kaedwen") == ["ghoul", "wraith"]
+    assert get_contracts_by_region("Skellige") == ["drowner", "leshen"]
+    assert get_contracts_by_region("Blaviken") == ["vampire", "griffin"]
+
 def send_post_request(url: str, data: dict, headers: dict = None):
     try:
         response = requests.post(url, json=data, headers=headers)
@@ -92,7 +112,7 @@ def run_tests():
     
     url = "https://edugen-backend-487d2168bc6c.herokuapp.com/projectLog/"
     payload = {
-        "user_id": 34,
+        "user_id": 203,
         "project_id": 166,
         "user_score": round(user_score, 2),
         "is_auto": False
